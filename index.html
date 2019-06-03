@@ -17,9 +17,27 @@
       <input type="submit" value="Go Back" id="btn-back" />
     </div>
     <div id="connecting-page">
-      <text id="header2">Connecting</text>
+      <text id="header3">Connecting</text>
+      <div class="lds-roller">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+      <input type="submit" value="Disconnect" id="btn-back-2" />
+    </div>
+    <div id="chat-page">
+      <text id="header4">chat</text>
+      <div id="message-channel"></div>
+      <input type="text" id="message" />
+      <input type="submit" value="Disconnect" id="btn-back-3" />
     </div>
   </body>
   <script src="/socket.io-client/dist/socket.io.js"></script>
   <script src="script.js"></script>
+  <link rel="stylesheet" type="text/css" href="style.css" />
 </html>
