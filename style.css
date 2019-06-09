@@ -116,3 +116,8 @@
   float: left;
   color: #999;
 }
+
+#body {
+  height: 300px;
+  width: 200px;
+}

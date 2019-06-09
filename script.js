@@ -37,25 +37,31 @@ function displayPage(index) {
   }
 }
 
+function remove_children(element) {
+  while (element.firstChild) {
+    element.removeChild(element.firstChild);
+  }
+}
+
 function add_chat_message(
   is_your_own_message,
   add_to_dom_element,
   message,
-  time
+  name
 ) {
   var div = document.createElement("div");
-  var p = document.createElement("p");
-  var span = document.createElement("span");
+  var p = document.createElement("span");
+  var p2 = document.createElement("span");
   if (is_your_own_message) {
     div.className = "container darker";
-    span.className = "time-left";
   } else {
     div.className = "container";
-    span.className = "time-right";
   }
   p.innerHTML = message;
+  p2.innerHTML = name + ":";
+  div.appendChild(p2);
   div.appendChild(p);
-  div.appendChild(span);
+
   add_to_dom_element.appendChild(div);
 }
 
@@ -72,10 +78,13 @@ submit_username.addEventListener("click", function() {
 message_box.addEventListener("keyup", function(event) {
   if (event.keyCode == 13) {
     if (message.value != "") {
+      var sent_message = message.value;
       socket.emit("chat", {
-        message: message_box.value
+        message: sent_message
       });
-      add_chat_message(true, message_channel, message_box.value, "asd");
+      chrome.storage.sync.get(["username"], function(data) {
+        add_chat_message(true, message_channel, sent_message, data.username);
+      });
     }
     message_box.value = "";
   }
@@ -85,14 +94,24 @@ btn_back.addEventListener("click", function() {
   displayPage(0);
 });
 
+btn_back_2.addEventListener("click", function() {
+  displayPage(1);
+  socket.emit("disconnecting");
+  socket = 0;
+});
+
 btn_back_3.addEventListener("click", function() {
   socket.emit("disconnecting");
+  socket = 0;
 });
 
 btn_match.addEventListener("click", function() {
   displayPage(2);
   socket = io("http://localhost:3000");
-  socket.emit("join");
+  chrome.storage.sync.get(["username"], function(data) {
+    socket.emit("join", { name: data.username });
+  });
+
   socket.on("connected", data => {
     header3.innerHTML = "connected, looking for other users ";
   });
@@ -101,6 +120,7 @@ btn_match.addEventListener("click", function() {
   });
   socket.on("disconnected", data => {
     displayPage(1);
+    remove_children(message_channel);
     var notifOptions = {
       type: "basic",
       iconUrl: "img/bad.png",
@@ -108,10 +128,10 @@ btn_match.addEventListener("click", function() {
       message: "Your chat has ended. Please find a new match."
     };
     chrome.notifications.create("end_chat", notifOptions);
-    header2.innerHTML += "\n The chat has ended";
+    socket = 0;
   });
   socket.on("chat", data => {
-    add_chat_message(false, message_channel, data.message, "asd");
+    add_chat_message(false, message_channel, data.message, data.name);
     console.log(data.message);
   });
 });
@@ -124,4 +144,10 @@ chrome.storage.sync.get(["username"], function(data) {
     displayPage(0);
     header.innerHTML = "Welcome to Chrome Chat";
   }
+});
+
+chrome.runtime.sendMessage({ greeting: "hello" }, function(response) {});
+
+chrome.runtime.onMessage.addListener(function(msg) {
+  console.log(msg);
 });
