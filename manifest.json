@@ -1,6 +1,6 @@
 {
   "name": "Chrome Chat",
-  "version": "1.0",
+  "version": "1.1",
   "description": "Real Time Anonymous Chat",
   "manifest_version": 2,
   "icons": {},
@@ -9,7 +9,13 @@
     "default_title": "start chatting"
   },
   "permissions": ["storage", "notifications"],
+
   "background": {
-    "scripts": ["app/background.js"]
+    "page": "background.html"
+  },
+  "icons": {
+    "16": "img/icon16.png",
+    "48": "img/icon48.png",
+    "128": "img/icon128.png"
   }
 }

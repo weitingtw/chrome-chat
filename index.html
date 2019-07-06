@@ -7,17 +7,22 @@
   </head>
   <body id="body">
     <div id="login-page">
-      <text id="header">Enter your username here</text>
-      <input type="text" id="username-input" />
-      <input type="submit" value="submit" id="submit-username" />
+      <h3 id="header">Enter your username here</h3>
+      <input
+        class="input2"
+        type="text"
+        id="username-input"
+        placeholder="username"
+      />
+      <input class="input1" type="submit" value="submit" id="submit-username" />
     </div>
     <div id="ready-page">
-      <text id="header2">Enter your username here</text>
-      <input type="submit" value="Match" id="btn-match" />
-      <input type="submit" value="Go Back" id="btn-back" />
+      <h3 id="header2">Enter your username here</h3>
+      <input class="input1" type="submit" value="Match" id="btn-match" />
+      <input class="input1" type="submit" value="username" id="btn-back" />
     </div>
     <div id="connecting-page">
-      <text id="header3">Connecting</text>
+      <h3 id="header3">Connecting</h3>
       <div class="lds-roller">
         <div></div>
         <div></div>
@@ -28,13 +33,20 @@
         <div></div>
         <div></div>
       </div>
-      <input type="submit" value="Disconnect" id="btn-back-2" />
+      <input class="input1" type="submit" value="Disconnect" id="btn-back-2" />
     </div>
     <div id="chat-page">
-      <text id="header4">chat</text>
+      <h3 id="header4">chat</h3>
       <div id="message-channel"></div>
-      <input type="text" id="message" />
-      <input type="submit" value="Disconnect" id="btn-back-3" />
+      <div id="bottom">
+        <input class="input2" type="text" id="message" placeholder="message" />
+        <input
+          class="input1"
+          type="submit"
+          value="Disconnect"
+          id="btn-back-3"
+        />
+      </div>
     </div>
   </body>
   <script src="/socket.io-client/dist/socket.io.js"></script>
